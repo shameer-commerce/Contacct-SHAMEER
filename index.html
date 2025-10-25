@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Us | Shameer</title>
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f0f4ff, #ffffff);
+      color: #111827;
+      line-height: 1.65;
+      min-height: 100vh;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      padding-top: 80px;
+    }
+    a {
+      color: #3b82f6;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s ease, transform 0.25s ease;
+      cursor: pointer;
+    }
+    a:hover,
+    a:focus {
+      color: #1e40af;
+      transform: translateY(-2px);
+      outline: none;
+      text-decoration: underline;
+    }
+
+    /* ===== Scroll Progress Bars (Keeping original styles) ===== */
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 5px;
+      width: 0;
+      background: linear-gradient(90deg, #2563eb, #3b82f6);
+      box-shadow: 0 0 8px rgba(59,130,246,0.8);
+      z-index: 9999;
+      border-radius: 0 0 8px 8px;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #progress-bar-vertical {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 6px;
+      height: 0;
+      background: linear-gradient(180deg, #2563eb, #3b82f6);
+      box-shadow: 0 0 8px rgba(59,130,246,0.8);
+      border-radius: 6px 0 0 6px;
+      z-index: 9999;
+      transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #progress-bar-left {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 6px;
+      height: 0;
+      background: linear-gradient(180deg, #2563eb, #3b82f6);
+      box-shadow: 0 0 8px rgba(59,130,246,0.8);
+      border-radius: 0 6px 6px 0;
+      z-index: 9999;
+      transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #progress-bar-bottom {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 5px;
+      width: 0;
+      background: linear-gradient(90deg, #2563eb, #3b82f6);
+      box-shadow: 0 0 8px (59,130,246,0.8);
+      border-radius: 8px 8px 0 0;
+      z-index: 9999;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ===== Header ===== */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      background: #fff;
+      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.6rem;
+      letter-spacing: 0.14em;
+      color: #2563eb;
+      text-transform: uppercase;
+      font-family: 'Segoe UI Black', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      user-select: none;
+      transition: box-shadow 0.3s ease, background-color 0.3s ease;
+      z-index: 1000;
+    }
+    header.scrolled {
+      box-shadow: 0 6px 25px rgba(37, 99, 235, 0.25);
+      background-color: #f9fbff;
+      color: #1e40af;
+    }
+
+    /* ===== Main Container & Titles ===== */
+    main {
+      max-width: 900px;
+      margin: 2rem auto 5rem;
+      background: #fff;
+      border-radius: 16px;
+      padding: 3.5rem 4rem 4rem;
+      box-shadow:
+        0 4px 14px rgba(0,0,0,0.07),
+        0 10px 40px rgba(0,0,0,0.05);
+      position: relative;
+      overflow: hidden;
+      will-change: transform, opacity;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      color: #1e3a8a;
+      font-family: 'Segoe UI Black', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      width: 100px;
+      height: 5px;
+      background: #3b82f6;
+      border-radius: 12px;
+      transform: translateX(-50%);
+      animation: underlineSlideIn 1.2s forwards ease-out;
+      opacity: 0;
+    }
+    @keyframes underlineSlideIn {
+      0% {
+        width: 0;
+        opacity: 0;
+      }
+      100% {
+        width: 100px;
+        opacity: 1;
+      }
+    }
+
+    small {
+      display: block;
+      text-align: center;
+      font-size: 1.1rem;
+      color: #6b7280;
+      margin-bottom: 3rem;
+      letter-spacing: 0.03em;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    /* ===== Form Styles ===== */
+    #contact-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    /* Full width for Address, Phone, Message, and Button */
+    .form-group-full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #1f2937;
+      font-size: 0.95rem;
+    }
+
+    input:not([type="submit"]),
+    textarea {
+      padding: 12px 15px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 1rem;
+      color: #111827;
+      background-color: #f9fafb;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      font-family: inherit;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 150px;
+    }
+
+    /* Styles for the loading/status span - Only used for temporary success/error messages */
+    #status-message {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #000000; 
+        margin-left: 10px;
+        min-width: 100px; 
+    }
+
+    /* Summary Result Container */
+    #summary-results {
+        margin-bottom: 10px; 
+        padding: 15px; 
+        border: 2px solid #e0f7fa; 
+        border-left: 5px solid #00bcd4; 
+        border-radius: 8px; 
+        background-color: #f5feff; 
+        font-size: 0.95rem;
+        transition: all 0.4s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    #summary-results p {
+        margin: 0;
+        line-height: 1.4;
+    }
+    #summary-results strong {
+        font-weight: 700;
+    }
+
+    #intent-analysis, #detail-checklist {
+        padding: 0;
+        margin: 0;
+    }
+
+    .checklist-item {
+        margin: 5px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+    }
+    /* Checkmark (Green) */
+    .checklist-item.found:before {
+        content: "✓";
+        color: #10b981; /* Emerald Green */
+        font-weight: 900;
+        font-size: 1.2rem;
+    }
+    /* X (Red/Warning) */
+    .checklist-item.missing:before {
+        content: "✗";
+        color: #ef4444; /* Red */
+        font-weight: 900;
+        font-size: 1.2rem;
+    }
+
+    /* Subject Line Field Style */
+    #subject-line {
+        font-weight: 500;
+        background-color: #eff6ff; /* Blue 50 */
+        color: #1e40af; /* Blue 800 */
+        border: 1px solid #93c5fd; /* Blue 300 */
+    }
+
+    /* Submit Button */
+    .submit-button {
+      grid-column: 1 / -1;
+      padding: 14px 25px;
+      background: linear-gradient(90deg, #2563eb, #3b82f6);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+      transition: all 0.2s ease;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-top: 15px;
+    }
+
+    .submit-button:hover {
+      background: linear-gradient(90deg, #1e40af, #2563eb);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+      transform: translateY(-2px);
+    }
+    .submit-button:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 10px rgba(59, 130, 246, 0.4);
+    }
+    .submit-button:disabled {
+        background: #9ca3af;
+        cursor: not-allowed;
+        box-shadow: none;
+        transform: none;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 720px) {
+      main {
+        padding: 2rem 1.5rem 3rem;
+        margin: 1.5rem auto 4rem;
+      }
+      h1 {
+        font-size: 2.2rem;
+        letter-spacing: 0.08em;
+      }
+      small {
+        font-size: 1rem;
+      }
+      #contact-form {
+        grid-template-columns: 1fr; /* Stack columns on small screens */
+        gap: 15px;
+      }
+      .form-group-full {
+        grid-column: auto;
+      }
+
+      #summary-results {
+        font-size: 0.85rem;
+        grid-template-columns: 1fr;
+      }
+      /* Adjust button container on mobile to stack the buttons if needed */
+      .form-group-full > div:nth-of-type(2) {
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 10px;
+      }
+      .form-group-full > div:nth-of-type(2) > div:first-of-type {
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+  <div id="progress-bar-vertical"></div>
+  <div id="progress-bar-left"></div>
+  <div id="progress-bar-bottom"></div>
+
+  <header>Contact Mr. Shameer</header>
+
+  <main>
+    <h1>Get In Touch</h1>
+
+
+    <form id="contact-form" action="https://formspree.io/f/xkgpwapp" method="POST">
+      <!-- Name Fields -->
+      <div class="form-group">
+        <label for="first-name">First Name</label>
+        <input type="text" id="first-name" name="first_name" required placeholder="John">
+      </div>
+      <div class="form-group">
+        <label for="last-name">Last Name</label>
+        <input type="text" id="last-name" name="last_name" required placeholder="Doe">
+      </div>
+
+      <!-- Contact Fields -->
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone_number" placeholder="(123) 456-7890">
+      </div>
+
+      <!-- Address Field (Optional) -->
+      <div class="form-group form-group-full">
+        <label for="address">Address (Optional)</label>
+        <input type="text" id="address" name="address" placeholder="123 Main St, City, Country">
+      </div>
+
+
+
+      <!-- Message Field and LLM Tools -->
+      <div class="form-group form-group-full">
+
+        <!-- Summary Results Display (Now contains Analysis AND Checklist) -->
+        <div id="summary-results" style="display: none;">
+            <div id="intent-analysis">
+                <p style="font-weight: 700; color: #1f2937; margin: 0 0 5px 0;">Analysis:</p>
+                <p id="summary-output" style="margin-bottom: 5px; color: #1f2937;"><strong style="font-weight: 600;">Summary:</strong> <span id="summary-text">---</span></p>
+                <p id="tone-output" style="color: #1f2937;"><strong style="font-weight: 600;">Tone:</strong> <span id="tone-text">---</span></p>
+            </div>
+            <div id="detail-checklist">
+                <p style="font-weight: 700; color: #1f2937; margin: 0 0 5px 0;">Required Details:</p>
+                <div id="checklist-output">
+                    <!-- Dynamic checklist items inserted here -->
+                    <div class="checklist-item" id="scope-item"><span class="item-text">Project Scope</span></div>
+                    <div class="checklist-item" id="budget-item"><span class="item-text">Budget/Pricing Mention</span></div>
+                    <div class="checklist-item" id="timeline-item"><span class="item-text">Timeline/Deadline</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <label for="message">Your Message</label>
+            <!-- Status Span for temporary messages -->
+            <span id="status-message" style="display: none; font-size: 0.85rem; font-weight: 500; white-space: nowrap;"></span>
+        </div>
+        <textarea id="message" name="message" required placeholder="Write your message here..."></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="submit-button">
+        Send Message
+      </button>
+
+    </form>
+  </main>
+
+  <!-- Chatbot Button -->
+  <button id="chatbot-toggle">AI</button>
+
+
+
+
+
+  <script>
+    // Constants for Gemini API
+    const API_KEY = "AIzaSyCBjfDMV2dNPueQoAHzum1rt74gUpFrJkA"; // Canvas environment will provide the API key
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+    
+    // UI Elements
+    const statusMessage = document.getElementById('status-message');
+    const messageTextarea = document.getElementById('message');
+    const subjectLineInput = document.getElementById('subject-line');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+
+    /**
+     * Shows a temporary status message in the status area.
+     * @param {string} message The status message to display.
+     * @param {string} type 'success', 'error', or 'info'.
+     */
+    function showTemporaryStatus(message, type = 'info') {
+        statusMessage.style.display = 'inline';
+        if (type === 'error') {
+             statusMessage.style.color = '#dc2626'; // Red for errors
+        } else {
+             statusMessage.style.color = '#111827'; // Dark gray for general info
+        }
+        statusMessage.textContent = message;
+
+        setTimeout(() => {
+            statusMessage.style.display = 'none';
+            statusMessage.textContent = ''; // Clear text
+        }, 3000); // Display for 3 seconds
+    }
+
+    /**
+     * Handles API call with exponential backoff for retries.
+     * @param {Object} payload The API request payload.
+     * @param {number} maxRetries Maximum number of retries.
+     * @returns {Promise<Object>} The API response JSON.
+     */
+    async function fetchGeminiResponse(payload, maxRetries = 5) {
+        for (let attempt = 0; attempt < maxRetries; attempt++) {
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.status === 429 && attempt < maxRetries - 1) {
+                    // Too Many Requests, implement exponential backoff
+                    const delay = Math.pow(2, attempt) * 1000 + Math.random() * 1000;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    continue; // Retry
+                }
+
+                if (!response.ok) {
+                    const errorBody = await response.text();
+                    console.error('API Error:', response.status, errorBody);
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+
+                return await response.json();
+
+            } catch (error) {
+                if (attempt === maxRetries - 1) {
+                    console.error('Max retries reached. Failed to fetch from Gemini API.', error);
+                    throw error;
+                }
+                // Other transient errors (like network issues) will trigger backoff and retry
+            }
+        }
+    }
+
+
+    /**
+     * Helper to update the checklist item class based on boolean value.
+     */
+    function updateChecklistItem(element, isFound) {
+        element.classList.remove('found', 'missing');
+        if (isFound) {
+            element.classList.add('found');
+        } else {
+            element.classList.add('missing');
+        }
+    }
+
+    /**
+     * Calls the Gemini API for Detail Checklist (Scope, Budget, Timeline).
+     */
+    // --- Original Scroll & Animation Script ---
+
+    // Smooth scroll-triggered animation using Intersection Observer API
+    const scrollElements = document.querySelectorAll('.form-group, .submit-button, small');
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.15
+    };
+
+    const revealOnScroll = (entries, observer) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(revealOnScroll, observerOptions);
+    scrollElements.forEach(el => observer.observe(el));
+
+    // Scroll progress bars update
+    const progressBar = document.getElementById('progress-bar');
+    const progressBarVertical = document.getElementById('progress-bar-vertical');
+    const progressBarLeft = document.getElementById('progress-bar-left');
+    const progressBarBottom = document.getElementById('progress-bar-bottom');
+
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+
+      // Top and bottom bars grow width
+      progressBar.style.width = scrollPercent + '%';
+      progressBarBottom.style.width = scrollPercent + '%';
+
+      // Left and right bars grow height
+      progressBarVertical.style.height = scrollPercent + '%';
+      progressBarLeft.style.height = scrollPercent + '%';
+
+      // Header shadow toggle on scroll
+      const header = document.querySelector('header');
+      if(scrollTop > 20){
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Initial state setup on load
+    window.onload = () => {
+        // Set the initial disabled state based on the message content (if any)
+        updateRefineButtonState(messageTextarea.value.trim().length);
+        
+        // Test sound effect
+        setTimeout(() => {
+            console.log('Testing sound effect...');
+            try {
+                const chatbotSound = document.getElementById('chatbot-sound');
+                chatbotSound.currentTime = 0;
+                const playPromise = chatbotSound.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log('Initial sound test failed:', error);
+                    });
+                }
+            } catch (error) {
+                console.log('Initial sound test error:', error);
+            }
+        }, 1000);
+    };
+    
+    // Function to add message to chat
+    function addMessageToChat(text, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('chat-message');
+        messageDiv.classList.add(sender + '-message');
+        messageDiv.textContent = text;
+        chatbotMessages.appendChild(messageDiv);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        return messageDiv;
+    }
+
+    // Function to get response from Gemini API
+    async function getGeminiResponse(userMessage) {
+        const payload = {
+            contents: [{
+                parts: [{
+                    text: `You are Shameer's Assistant, a helpful AI assistant. Respond to the user's message: "${userMessage}"`
+                }]
+            }],
+            generationConfig: {
+                temperature: 0.7,
+                maxOutputTokens: 1000
+            }
+        };
+
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('API Error Response:', errorText);
+            throw new Error(`API request failed with status ${response.status}: ${errorText}`);
+        }
+
+        const data = await response.json();
+        console.log('API Response:', data);
+        
+        // Check if response has content
+        if (!data.candidates || data.candidates.length === 0) {
+            throw new Error('No candidates in API response');
+        }
+        
+        if (!data.candidates[0].content || !data.candidates[0].content.parts || data.candidates[0].content.parts.length === 0) {
+            throw new Error('No content parts in API response');
+        }
+        
+        return data.candidates[0].content.parts[0].text;
+    }
+  </script>
+</body>
+</html>
